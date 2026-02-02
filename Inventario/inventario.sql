@@ -169,7 +169,7 @@ insert into detalle_venta values
 
 select * from detalle_venta;
 
-
+select * from proveedores where upper(nombre);
 
 
 
