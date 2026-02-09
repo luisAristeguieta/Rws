@@ -167,11 +167,15 @@ insert into detalle_venta values
 
 
 
-select * from detalle_venta;
+select * from proveedores;
 
-select * from proveedores where upper(nombre);
+select * from proveedores where upper(nombre) like '%S%';
 
-
+select *
+from proveedores pv
+inner join tipo_documento td
+    on pv.codigo_documento = td.codigo_documento      -- condición de unión
+where upper(nombre) like '%S%';          -- filtros adicionales
 
 
 	
