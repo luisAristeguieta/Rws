@@ -178,4 +178,12 @@ inner join tipo_documento td
 where upper(nombre) like '%S%';          -- filtros adicionales
 
 
+insert into proveedores values
+('003','c','Luis','999077810','test3@gmail.com','Quito'),
 	
+
+
+select id_proveedor from proveedores where id_proveedor like '%0%';
+
+select * from proveedores where id_proveedor = '003';
+
