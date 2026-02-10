@@ -167,7 +167,7 @@ insert into detalle_venta values
 
 
 
-select * from proveedores;
+select * from producto;
 
 select * from proveedores where upper(nombre) like '%S%';
 
@@ -177,13 +177,20 @@ inner join tipo_documento td
     on pv.codigo_documento = td.codigo_documento      -- condición de unión
 where upper(nombre) like '%S%';          -- filtros adicionales
 
-
-insert into proveedores values
-('003','c','Luis','999077810','test3@gmail.com','Quito'),
-	
-
-
 select id_proveedor from proveedores where id_proveedor like '%0%';
 
 select * from proveedores where id_proveedor = '003';
 
+alter table Producto add column stock_producto int;
+update Producto set stock_producto = 100 where codigo_prod =1;
+update Producto set stock_producto = 0 where codigo_prod =2;
+update Producto set stock_producto = 0 where codigo_prod =3;
+update Producto set stock_producto = 50 where codigo_prod =4;
+
+select pr.codigo_prod, pr.nombre, pr.codigo_udm, udm.descripcion as descripcion_udm, 
+	cast(pr.precio_venta as decimal(6,3)) as precio_venta, pr.iva, cast(pr.costo as decimal(6,3)) as costo, 
+	pr.codigo_categoria, ca.nombre as nombre_categoria, pr.stock_producto 
+from producto pr 
+inner join unidades_de_medidas udm on pr.codigo_udm = udm.codigo_udm 
+inner join categoria ca on pr.codigo_categoria = ca.codigo_categoria -- condición de unión
+where upper(pr.nombre) like '%S%';
