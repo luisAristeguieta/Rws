@@ -194,3 +194,6 @@ from producto pr
 inner join unidades_de_medidas udm on pr.codigo_udm = udm.codigo_udm 
 inner join categoria ca on pr.codigo_categoria = ca.codigo_categoria -- condición de unión
 where upper(pr.nombre) like '%S%';
+
+
+select * from Producto where upper(nombre) like '%LATA%';
