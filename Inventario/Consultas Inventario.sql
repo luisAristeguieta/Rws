@@ -15,6 +15,13 @@ select * from categoria_unidad;
 -- Hay 12 tablas 
 
 
+alter table historial_stock
+add column referencia varchar(50);
+
+update cabecera_pedidos
+set codigo_estado = 'S'
+where id_cabecera_pedidos = 14;
+
 
 -- Mostrar detalles de todas las tablas: 
 
