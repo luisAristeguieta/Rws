@@ -136,7 +136,7 @@ public class PedidosBDD {
 						"insert into historial_stock (fecha, referencia, codigo_prod, cantidad_stock) " +
 						"values (?, ?, ?, ?)");
 
-					String referencia = "pedido " + detalle.getIdPedidos();
+					String referencia = "pedido " + pedido.getIdCabeceraPedidos();
 
 					psInsertarHistorial.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
 					psInsertarHistorial.setString(2, referencia);
