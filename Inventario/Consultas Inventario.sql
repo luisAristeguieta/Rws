@@ -15,12 +15,99 @@ select * from categoria_unidad;
 -- Hay 12 tablas 
 
 
-alter table historial_stock
-add column referencia varchar(50);
+select cp.id_cabecera_pedidos, cp.fecha, cp.codigo_estado,
+       pr.id_proveedor, pr.codigo_documento, pr.nombre
+from cabecera_pedidos cp
+inner join proveedores pr on cp.id_proveedor = pr.id_proveedor
+where cp.id_proveedor = '1792285747001'
+order by cp.id_cabecera_pedidos;
 
-update cabecera_pedidos
-set codigo_estado = 'S'
-where id_cabecera_pedidos = 14;
+select dp.id_cabecera_pedidos, dp.codigo_prod,
+       pro.nombre as nombre_producto,
+       cat.nombre as nombre_categoria,
+       dp.cantidad_recibida, dp.subtotal
+from detalle_pedidos dp
+inner join producto pro on dp.codigo_prod = pro.codigo_prod
+left join categoria cat on pro.codigo_categoria = cat.codigo_categoria
+where dp.id_cabecera_pedidos = '1792285747001'
+order by dp.codigo_prod;
+
+
+
+select pr.id_proveedor, pr.codigo_documento, pr.nombre, cp.id_cabecera_pedidos, cp.fecha, cp.codigo_estado, dp.codigo_prod, pro.nombre as nombre_producto, cat.nombre as nombre_categoria,dp.cantidad_recibida, dp.subtotal 
+from cabecera_pedidos cp
+inner join proveedores pr on cp.id_proveedor = pr.id_proveedor
+inner join detalle_pedidos dp on cp.id_cabecera_pedidos = dp.id_cabecera_pedidos
+inner join producto pro on dp.codigo_prod = pro.codigo_prod
+inner join categoria cat on pro.codigo_categoria = cat.codigo_categoria
+where  cp.id_proveedor = '1792285747001'
+order by cp.id_proveedor;
+
+
+select  
+    pr.id_proveedor,  
+    pr.codigo_documento,  
+    pr.nombre,  
+    cp.id_cabecera_pedidos,  
+    cp.fecha,  
+    cp.codigo_estado,  
+    dp.codigo_prod,  
+    pro.nombre as nombre_producto,  
+    cat.nombre as nombre_categoria,  
+    dp.cantidad_recibida,  
+    dp.subtotal  
+from cabecera_pedidos cp  
+inner join proveedores pr  
+    on cp.id_proveedor = pr.id_proveedor  
+inner join detalle_pedidos dp  
+    on cp.id_cabecera_pedidos = dp.id_cabecera_pedidos  
+inner join producto pro  
+    on dp.codigo_prod = pro.codigo_prod  
+left join categoria cat  
+    on pro.codigo_categoria = cat.codigo_categoria  
+where cp.id_proveedor = '1792285747'
+order by cp.id_cabecera_pedidos, dp.codigo_prod;
+
+
+		
+select pr.id_proveedor, 
+       pr.codigo_documento, 
+       pr.nombre, 
+       cp.id_cabecera_pedidos, 
+       cp.codigo_estado, 
+       dp.codigo_prod, 
+       pro.nombre as nombre_producto, 
+       cat.nombre as nombre_categoria,
+       dp.cantidad_recibida, 
+       dp.subtotal 
+from cabecera_pedidos cp
+left join proveedores pr on cp.id_proveedor = pr.id_proveedor
+inner join detalle_pedidos dp on cp.id_cabecera_pedidos = dp.id_cabecera_pedidos
+inner join producto pro on dp.codigo_prod = pro.codigo_prod
+inner join categoria cat on pro.codigo_categoria = cat.codigo_categoria
+order by cp.id_proveedor;
+
+
+select 
+    pr.id_proveedor,
+    pr.codigo_documento,
+    pr.nombre as nombre_proveedor,
+    cp.id_cabecera_pedidos,
+    cp.codigo_estado,
+    sum(dp.cantidad_recibida) as total_cantidad,
+    sum(dp.subtotal) as total_pedido
+from cabecera_pedidos cp
+inner join proveedores pr 
+    on cp.id_proveedor = pr.id_proveedor
+inner join detalle_pedidos dp 
+    on cp.id_cabecera_pedidos = dp.id_cabecera_pedidos
+group by 
+    pr.id_proveedor,
+    pr.codigo_documento,
+    pr.nombre,
+    cp.id_cabecera_pedidos,
+    cp.codigo_estado
+order by cp.id_cabecera_pedidos;
 
 
 -- Mostrar detalles de todas las tablas: 
@@ -33,7 +120,9 @@ WHERE table_schema = 'public'
 ORDER BY table_name, ordinal_position;
 
 
-
+SELECT setval('categoria_codigo_categoria_seq', 
+              (SELECT MAX(codigo_categoria) FROM categoria));
+			  
 SELECT constraint_name, constraint_type
 FROM information_schema.table_constraints
 WHERE table_name = 'cabecera_pedidos';
@@ -55,7 +144,7 @@ LEFT JOIN information_schema.table_constraints tc
        ON kcu.constraint_name = tc.constraint_name
        AND tc.table_schema = 'public'
 WHERE c.table_schema = 'public'
-AND c.table_name IN ('cabecera_pedidos') -- 'detalle_pedidos'
+AND c.table_name IN ('detalle_pedidos') -- 'detalle_pedidos'
 ORDER BY c.table_name, c.ordinal_position;
 
 
