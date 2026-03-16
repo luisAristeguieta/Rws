@@ -15,6 +15,34 @@ select * from categoria_unidad;
 -- Hay 12 tablas 
 
 
+
+
+
+
+-- Busquedad de pedidos por id del proveedor:
+select pr.id_proveedor, pr.codigo_documento, pr.nombre, cp.id_cabecera_pedidos, cp.fecha, cp.codigo_estado, dp.codigo_prod, pro.nombre as nombre_producto, cat.nombre as nombre_categoria,dp.cantidad_recibida, dp.subtotal 
+from cabecera_pedidos cp
+inner join proveedores pr on cp.id_proveedor = pr.id_proveedor
+inner join detalle_pedidos dp on cp.id_cabecera_pedidos = dp.id_cabecera_pedidos
+inner join producto pro on dp.codigo_prod = pro.codigo_prod
+inner join categoria cat on pro.codigo_categoria = cat.codigo_categoria
+where  cp.id_proveedor = '1792285747'
+order by cp.id_proveedor;
+
+-- Busquedad del proveedor con id: 
+select * from proveedores where id_proveedor = '1792285747'
+
+
+-- Busquedad del product con id: 
+select * from producto where codigo_prod = 4
+
+
+
+
+
+
+
+
 select cp.id_cabecera_pedidos, cp.fecha, cp.codigo_estado,
        pr.id_proveedor, pr.codigo_documento, pr.nombre
 from cabecera_pedidos cp
@@ -29,19 +57,12 @@ select dp.id_cabecera_pedidos, dp.codigo_prod,
 from detalle_pedidos dp
 inner join producto pro on dp.codigo_prod = pro.codigo_prod
 left join categoria cat on pro.codigo_categoria = cat.codigo_categoria
-where dp.id_cabecera_pedidos = '1792285747001'
+where dp.id_cabecera_pedidos = '1'
 order by dp.codigo_prod;
 
 
 
-select pr.id_proveedor, pr.codigo_documento, pr.nombre, cp.id_cabecera_pedidos, cp.fecha, cp.codigo_estado, dp.codigo_prod, pro.nombre as nombre_producto, cat.nombre as nombre_categoria,dp.cantidad_recibida, dp.subtotal 
-from cabecera_pedidos cp
-inner join proveedores pr on cp.id_proveedor = pr.id_proveedor
-inner join detalle_pedidos dp on cp.id_cabecera_pedidos = dp.id_cabecera_pedidos
-inner join producto pro on dp.codigo_prod = pro.codigo_prod
-inner join categoria cat on pro.codigo_categoria = cat.codigo_categoria
-where  cp.id_proveedor = '1792285747001'
-order by cp.id_proveedor;
+
 
 
 select  
